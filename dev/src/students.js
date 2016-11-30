@@ -8,8 +8,12 @@ export default class Student extends Component {
     super(props);
 
     this.state = {
-      messages: []
+      messages: [],
+      name: ''
     }
+
+    this.onNameChange= this.onNameChange.bind(this);
+    this.onNameSubmit= this.onNameSubmit.bind(this);
   }
 
   //mounts before component is rendered
@@ -26,6 +30,22 @@ export default class Student extends Component {
 
 
   }
+  onNameChange(event) {
+    this.setState({ name: event.target.value})
+  }
+  //submit name to delate user from db
+  onNameSubmit() {
+    var name = this.state.name;
+    axios.post('/delete', { name: name })
+      .then(function(res){
+        console.log('deleted', res);
+      })
+      .catch(function (err){
+        console.log(err);
+      })
+    this.setState({ name: '' });
+    this.componentWillMount();
+  }
 
   render() {
     console.log(this.state.messages);
@@ -34,6 +54,12 @@ export default class Student extends Component {
         <ul role='nav'>
           <li><Link to="/">Home</Link></li>
         </ul>
+
+        <form>
+          <input placeholder="name" value={this.state.name} onChange={this.onNameChange}/>
+          <button type='submit' onClick={this.onNameSubmit}>Submit</button>
+        </form>
+
         <div>
           {this.state.messages.map((message, index)=>{
             return <div key={index}>{message.name + ": "}{message.message}</div>

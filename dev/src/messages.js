@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 
 export default class Messages extends Component {
+
   renderMessages (messages) {
     const name = messages.name;
     const message = messages.message;
@@ -10,9 +11,12 @@ export default class Messages extends Component {
     );
   }
 
+  
+
   render() {
     return (
       <div>
+
         <ul>
           {this.props.messages.map(this.renderMessages)}
         </ul>

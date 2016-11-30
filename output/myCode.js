@@ -28155,8 +28155,12 @@
 	    var _this = _possibleConstructorReturn(this, (Student.__proto__ || Object.getPrototypeOf(Student)).call(this, props));
 
 	    _this.state = {
-	      messages: []
+	      messages: [],
+	      name: ''
 	    };
+
+	    _this.onNameChange = _this.onNameChange.bind(_this);
+	    _this.onNameSubmit = _this.onNameSubmit.bind(_this);
 	    return _this;
 	  }
 
@@ -28173,6 +28177,25 @@
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
+	    }
+	  }, {
+	    key: 'onNameChange',
+	    value: function onNameChange(event) {
+	      this.setState({ name: event.target.value });
+	    }
+	    //submit name to delate user from db
+
+	  }, {
+	    key: 'onNameSubmit',
+	    value: function onNameSubmit() {
+	      var name = this.state.name;
+	      _axios2.default.post('/delete', { name: name }).then(function (res) {
+	        console.log('deleted', res);
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	      this.setState({ name: '' });
+	      this.componentWillMount();
 	    }
 	  }, {
 	    key: 'render',
@@ -28192,6 +28215,16 @@
 	              { to: '/' },
 	              'Home'
 	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'form',
+	          null,
+	          _react2.default.createElement('input', { placeholder: 'name', value: this.state.name, onChange: this.onNameChange }),
+	          _react2.default.createElement(
+	            'button',
+	            { type: 'submit', onClick: this.onNameSubmit },
+	            'Submit'
 	          )
 	        ),
 	        _react2.default.createElement(

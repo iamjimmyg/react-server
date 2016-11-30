@@ -47,10 +47,12 @@ app.get('/messages', function(req, res){
   });
 });
 
-app.delete('/delete/', function(req, res){
-  User.findByIdAndRemove(req.body.id, function(err){
+app.post('/delete', function(req, res){
+  console.log(req.body)
+  //
+  User.remove({name: req.body.name}, function(err){
     if(err) throw err;
-    console.log(req.body)
+
     res.send('successful delete' );
   })
 });
